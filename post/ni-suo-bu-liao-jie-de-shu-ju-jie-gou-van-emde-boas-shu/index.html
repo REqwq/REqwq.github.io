@@ -1,22 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://reqwq.github.io</id>
-    <title>REqwq&apos;s Blog</title>
-    <updated>2022-02-19T13:18:17.335Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://reqwq.github.io"/>
-    <link rel="self" href="https://reqwq.github.io/atom.xml"/>
-    <subtitle>在我遥远的褪去颜色的名字上，荣光之虹照耀我身</subtitle>
-    <logo>https://reqwq.github.io/images/avatar.png</logo>
-    <icon>https://reqwq.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2022, REqwq&apos;s Blog</rights>
-    <entry>
-        <title type="html"><![CDATA[你所不了解的数据结构——van Emde Boas 树]]></title>
-        <id>https://reqwq.github.io/post/ni-suo-bu-liao-jie-de-shu-ju-jie-gou-van-emde-boas-shu/</id>
-        <link href="https://reqwq.github.io/post/ni-suo-bu-liao-jie-de-shu-ju-jie-gou-van-emde-boas-shu/">
-        </link>
-        <updated>2022-02-19T13:16:27.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>你所不了解的数据结构——van Emde Boas 树 | REqwq&#39;s Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://reqwq.github.io/favicon.ico?v=1645276692246">
+<link rel="stylesheet" href="https://reqwq.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言
+van Emde Boas 树（以下简称 vEB 树），是由荷兰计算机科学家 Peter van Emde Boas\mathtt{Peter\ van\ Emde\ Boas}Peter van Emde Boas 于 1975 年..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://reqwq.github.io">
+        <img src="https://reqwq.github.io/images/avatar.png?v=1645276692246" class="site-logo">
+        <h1 class="site-title">REqwq&#39;s Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/REqwq" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      在我遥远的褪去颜色的名字上，荣光之虹照耀我身
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://reqwq.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">你所不了解的数据结构——van Emde Boas 树</h2>
+            <div class="post-date">2022-02-19</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="前言">前言</h2>
 <p>van Emde Boas 树（以下简称 vEB 树），是由荷兰计算机科学家 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="monospace">P</mi><mi mathvariant="monospace">e</mi><mi mathvariant="monospace">t</mi><mi mathvariant="monospace">e</mi><mi mathvariant="monospace">r</mi><mtext> </mtext><mi mathvariant="monospace">v</mi><mi mathvariant="monospace">a</mi><mi mathvariant="monospace">n</mi><mtext> </mtext><mi mathvariant="monospace">E</mi><mi mathvariant="monospace">m</mi><mi mathvariant="monospace">d</mi><mi mathvariant="monospace">e</mi><mtext> </mtext><mi mathvariant="monospace">B</mi><mi mathvariant="monospace">o</mi><mi mathvariant="monospace">a</mi><mi mathvariant="monospace">s</mi></mrow><annotation encoding="application/x-tex">\mathtt{Peter\ van\ Emde\ Boas}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord"><span class="mord mathtt">P</span><span class="mord mathtt">e</span><span class="mord mathtt">t</span><span class="mord mathtt">e</span><span class="mord mathtt">r</span><span class="mspace"> </span><span class="mord mathtt">v</span><span class="mord mathtt">a</span><span class="mord mathtt">n</span><span class="mspace"> </span><span class="mord mathtt">E</span><span class="mord mathtt">m</span><span class="mord mathtt">d</span><span class="mord mathtt">e</span><span class="mspace"> </span><span class="mord mathtt">B</span><span class="mord mathtt">o</span><span class="mord mathtt">a</span><span class="mord mathtt">s</span></span></span></span></span> 于 1975 年发明的一种树数据结构。</p>
 <p>当我翻开 《算法导论》 的目录的时候，一下子就被这个奇特的名字吸引住了。在学习过程中，我发现这个数据结构构思极其巧妙。因此，我将按照原文的思路，采用更通俗易懂的表述介绍这个数据结构，这篇文章也是我的学习笔记。此外，网上有关 vEB 树的实现均为指针实现，我这里将会给出无指针的实现。</p>
 <p>最后，这篇文章如果有什么疏漏或错误之处，还请读者指出。这篇文章仅作抛砖引玉啦~</p>
@@ -854,33 +931,46 @@ int main(){
 <p>终于写完啦！！1，现在是 2021 年 6 月 27 日 23 时 39 分。</p>
 <p>写这篇文章的原因不只是因为从《算法导论》里看到的，还有一个原因是之前在日报里看到过：<a href="https://www.luogu.com.cn/blog/Ynoi/vanemdeboas-shu-xue-xi-bi-ji">Ynoi的学习笔记</a>，只是很简单的讲了一下，但也激发了我很大的兴趣。vEB 树虽然实用性不强，但是能够很好的激发思维，这才是我写完这篇文章的动力。</p>
 <p>谢谢观看。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【置顶】关于我]]></title>
-        <id>https://reqwq.github.io/post/about/</id>
-        <link href="https://reqwq.github.io/post/about/">
-        </link>
-        <updated>2022-02-19T12:47:47.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<p>这里保存着本人 OI 的学习笔记及做题记录等，欢迎浏览！</p>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<p>luogu：REqwq</p>
-<p>欢迎访问我的主页并关注（划掉</p>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<p>OI，音游</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[测试]]></title>
-        <id>https://reqwq.github.io/post/ce-shi/</id>
-        <link href="https://reqwq.github.io/post/ce-shi/">
-        </link>
-        <updated>2022-02-19T12:01:27.000Z</updated>
-        <content type="html"><![CDATA[<p>qwqwq</p>
-]]></content>
-    </entry>
-</feed>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://reqwq.github.io/post/about/">
+                  <h3 class="post-title">
+                    【置顶】关于我
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
