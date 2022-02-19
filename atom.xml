@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://REqwq.github.io</id>
+    <id>https://reqwq.github.io</id>
     <title>REqwq&apos;s Blog</title>
-    <updated>2022-02-19T12:16:26.780Z</updated>
+    <updated>2022-02-19T12:17:39.481Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://REqwq.github.io"/>
-    <link rel="self" href="https://REqwq.github.io/atom.xml"/>
+    <link rel="alternate" href="https://reqwq.github.io"/>
+    <link rel="self" href="https://reqwq.github.io/atom.xml"/>
     <subtitle>在我遥远的褪去颜色的名字上，荣光之虹照耀我身</subtitle>
-    <logo>https://REqwq.github.io/images/avatar.png</logo>
-    <icon>https://REqwq.github.io/favicon.ico</icon>
+    <logo>https://reqwq.github.io/images/avatar.png</logo>
+    <icon>https://reqwq.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, REqwq&apos;s Blog</rights>
     <entry>
         <title type="html"><![CDATA[测试]]></title>
-        <id>https://REqwq.github.io/post/ce-shi/</id>
-        <link href="https://REqwq.github.io/post/ce-shi/">
+        <id>https://reqwq.github.io/post/ce-shi/</id>
+        <link href="https://reqwq.github.io/post/ce-shi/">
         </link>
         <updated>2022-02-19T12:01:27.000Z</updated>
         <content type="html"><![CDATA[<p>qwqwq</p>
@@ -21,8 +21,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://REqwq.github.io/post/hello-gridea/</id>
-        <link href="https://REqwq.github.io/post/hello-gridea/">
+        <id>https://reqwq.github.io/post/hello-gridea/</id>
+        <link href="https://reqwq.github.io/post/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
