@@ -1,99 +1,89 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>你所不了解的数据结构——van Emde Boas 树 | REqwq&#39;s Blog</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://reqwq.github.io/favicon.ico?v=1645281541120">
-<link rel="stylesheet" href="https://reqwq.github.io/styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="shortcut icon" href="https://reqwq.github.io//favicon.ico?v=1645328540800">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://reqwq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="你所不了解的数据结构——van Emde Boas 树 | REqwq&#39;s Blog - Atom Feed" href="https://reqwq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
     <meta name="description" content="前言
 van Emde Boas 树（以下简称 vEB 树），是由荷兰计算机科学家 Peter van Emde Boas\mathtt{Peter\ van\ Emde\ Boas}Peter van Emde Boas 于 1975 年..." />
     <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://reqwq.github.io">
-        <img src="https://reqwq.github.io/images/avatar.png?v=1645281541120" class="site-logo">
-        <h1 class="site-title">REqwq&#39;s Blog</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://reqwq.github.io/">
+  <img class="avatar" src="https://reqwq.github.io//images/avatar.png?v=1645328540800" alt="">
+  </a>
+  <h1 class="site-title">
+    REqwq&#39;s Blog
+  </h1>
+  <p class="site-description">
+    在我遥远的褪去颜色的名字上，荣光之虹照耀我身
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-    </div>
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/REqwq" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+    
       
-        
+    
       
-        
+    
       
-        
+    
       
-        
-      
-    </div>
-    <div class="site-description">
-      在我遥远的褪去颜色的名字上，荣光之虹照耀我身
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://reqwq.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">你所不了解的数据结构——van Emde Boas 树</h2>
-            <div class="post-date">2022-02-19</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              你所不了解的数据结构——van Emde Boas 树
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-02-19
+              </span>
+              <span>
+                40 min read
+              </span>
+              
+            </div>
             
-            <div class="post-content" v-pre>
-              <h2 id="前言">前言</h2>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="前言">前言</h2>
 <p>van Emde Boas 树（以下简称 vEB 树），是由荷兰计算机科学家 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="monospace">P</mi><mi mathvariant="monospace">e</mi><mi mathvariant="monospace">t</mi><mi mathvariant="monospace">e</mi><mi mathvariant="monospace">r</mi><mtext> </mtext><mi mathvariant="monospace">v</mi><mi mathvariant="monospace">a</mi><mi mathvariant="monospace">n</mi><mtext> </mtext><mi mathvariant="monospace">E</mi><mi mathvariant="monospace">m</mi><mi mathvariant="monospace">d</mi><mi mathvariant="monospace">e</mi><mtext> </mtext><mi mathvariant="monospace">B</mi><mi mathvariant="monospace">o</mi><mi mathvariant="monospace">a</mi><mi mathvariant="monospace">s</mi></mrow><annotation encoding="application/x-tex">\mathtt{Peter\ van\ Emde\ Boas}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord"><span class="mord mathtt">P</span><span class="mord mathtt">e</span><span class="mord mathtt">t</span><span class="mord mathtt">e</span><span class="mord mathtt">r</span><span class="mspace"> </span><span class="mord mathtt">v</span><span class="mord mathtt">a</span><span class="mord mathtt">n</span><span class="mspace"> </span><span class="mord mathtt">E</span><span class="mord mathtt">m</span><span class="mord mathtt">d</span><span class="mord mathtt">e</span><span class="mspace"> </span><span class="mord mathtt">B</span><span class="mord mathtt">o</span><span class="mord mathtt">a</span><span class="mord mathtt">s</span></span></span></span></span> 于 1975 年发明的一种树数据结构。</p>
 <p>当我翻开 《算法导论》 的目录的时候，一下子就被这个奇特的名字吸引住了。在学习过程中，我发现这个数据结构构思极其巧妙。因此，我将按照原文的思路，采用更通俗易懂的表述介绍这个数据结构，这篇文章也是我的学习笔记。此外，网上有关 vEB 树的实现均为指针实现，我这里将会给出无指针的实现。</p>
 <p>最后，这篇文章如果有什么疏漏或错误之处，还请读者指出。这篇文章仅作抛砖引玉啦~</p>
@@ -932,50 +922,130 @@ int main(){
 <p>写这篇文章的原因不只是因为从《算法导论》里看到的，还有一个原因是之前在日报里看到过：<a href="https://www.luogu.com.cn/blog/Ynoi/vanemdeboas-shu-xue-xi-bi-ji">Ynoi的学习笔记</a>，只是很简单的讲了一下，但也激发了我很大的兴趣。vEB 树虽然实用性不强，但是能够很好的激发思维，这才是我写完这篇文章的动力。</p>
 <p>谢谢观看。</p>
 
-            </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://reqwq.github.io/post/about/">
-                  <h3 class="post-title">
-                    【置顶】关于我
-                  </h3>
-                </a>
               </div>
-            
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#0-%E5%89%8D%E7%BD%AE%E8%8A%9D%E5%A3%AB"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0.</mn></mrow><annotation encoding="application/x-tex">0.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span></span></span></span> 前置芝士</a></li>
+<li><a href="#1-%E5%BC%95%E5%85%A5"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1.</mn></mrow><annotation encoding="application/x-tex">1.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">.</span></span></span></span> 引入</a></li>
+<li><a href="#2-%E7%AE%80%E5%8D%95%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2.</mn></mrow><annotation encoding="application/x-tex">2.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">.</span></span></span></span> 简单的思路</a>
+<ul>
+<li><a href="#21-%E5%8F%A0%E5%8A%A0%E7%BB%93%E6%9E%84"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2.1</mn></mrow><annotation encoding="application/x-tex">2.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">.</span><span class="mord">1</span></span></span></span> 叠加结构</a></li>
+<li><a href="#22-%E7%B0%87"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2.2</mn></mrow><annotation encoding="application/x-tex">2.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">.</span><span class="mord">2</span></span></span></span> 簇</a></li>
+</ul>
+</li>
+<li><a href="#3-%E5%8E%9F%E5%9E%8B-veb-%E6%A0%91"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.</mn></mrow><annotation encoding="application/x-tex">3.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span></span></span></span> 原型 vEB 树</a>
+<ul>
+<li><a href="#31-%E5%AE%9A%E4%B9%89"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.1</mn></mrow><annotation encoding="application/x-tex">3.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">1</span></span></span></span> 定义</a></li>
+<li><a href="#32-%E7%BB%93%E6%9E%84"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.2</mn></mrow><annotation encoding="application/x-tex">3.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">2</span></span></span></span> 结构</a></li>
+<li><a href="#33-proto_veb-%E6%93%8D%E4%BD%9C%E5%AE%9E%E7%8E%B0"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.3</mn></mrow><annotation encoding="application/x-tex">3.3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">3</span></span></span></span> proto_vEB 操作实现</a><br>
+*
+<ul>
+<li><a href="#%E9%80%92%E5%BD%92%E5%BC%8F%E4%B8%80">递归式一：</a></li>
+<li><a href="#%E9%80%92%E5%BD%92%E5%BC%8F%E4%BA%8C">递归式二：</a></li>
+<li><a href="#331-%E5%88%A4%E6%96%AD%E6%9F%90%E4%B8%AA%E5%80%BC%E6%98%AF%E5%90%A6%E5%9C%A8%E9%9B%86%E5%90%88%E4%B8%AD"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.3.1</mn></mrow><annotation encoding="application/x-tex">3.3.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">3</span><span class="mord">.</span><span class="mord">1</span></span></span></span> 判断某个值是否在集合中</a></li>
+<li><a href="#332-%E6%8F%92%E5%85%A5%E6%9F%90%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.3.2</mn></mrow><annotation encoding="application/x-tex">3.3.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">3</span><span class="mord">.</span><span class="mord">2</span></span></span></span> 插入某个元素</a></li>
+<li><a href="#333-%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.3.3</mn></mrow><annotation encoding="application/x-tex">3.3.3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">3</span><span class="mord">.</span><span class="mord">3</span></span></span></span> 删除某个元素</a></li>
+<li><a href="#334-%E6%9F%A5%E8%AF%A2%E6%9C%80%E5%B0%8F%E5%80%BC"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.3.4</mn></mrow><annotation encoding="application/x-tex">3.3.4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">3</span><span class="mord">.</span><span class="mord">4</span></span></span></span> 查询最小值</a></li>
+<li><a href="#335-%E6%9F%A5%E8%AF%A2%E5%90%8E%E7%BB%A7"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.3.5</mn></mrow><annotation encoding="application/x-tex">3.3.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">3</span><span class="mord">.</span><span class="mord">5</span></span></span></span> 查询后继</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-%E7%9C%9F%E6%AD%A3%E7%9A%84-veb"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.</mn></mrow><annotation encoding="application/x-tex">4.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span></span></span></span> 真正的 vEB</a>
+<ul>
+<li><a href="#41-%E7%BB%93%E6%9E%84"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.1</mn></mrow><annotation encoding="application/x-tex">4.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">1</span></span></span></span> 结构</a></li>
+<li><a href="#42-%E6%93%8D%E4%BD%9C"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.2</mn></mrow><annotation encoding="application/x-tex">4.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">2</span></span></span></span> 操作</a>
+<ul>
+<li><a href="#421-%E5%88%A4%E6%96%AD%E6%9F%90%E5%85%83%E7%B4%A0%E6%98%AF%E5%90%A6%E5%9C%A8%E9%9B%86%E5%90%88%E4%B8%AD"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.2.1</mn></mrow><annotation encoding="application/x-tex">4.2.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">2</span><span class="mord">.</span><span class="mord">1</span></span></span></span> 判断某元素是否在集合中</a></li>
+<li><a href="#422-%E6%9F%A5%E8%AF%A2%E6%9C%80%E5%A4%A7%E5%B0%8F%E5%80%BC"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.2.2</mn></mrow><annotation encoding="application/x-tex">4.2.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">2</span><span class="mord">.</span><span class="mord">2</span></span></span></span> 查询最大/小值</a></li>
+<li><a href="#423-%E6%9F%A5%E8%AF%A2%E5%90%8E%E7%BB%A7"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.2.3</mn></mrow><annotation encoding="application/x-tex">4.2.3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">2</span><span class="mord">.</span><span class="mord">3</span></span></span></span> 查询后继</a></li>
+<li><a href="#424-%E6%9F%A5%E8%AF%A2%E5%89%8D%E9%A9%B1"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.2.4</mn></mrow><annotation encoding="application/x-tex">4.2.4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">2</span><span class="mord">.</span><span class="mord">4</span></span></span></span> 查询前驱</a></li>
+<li><a href="#425-%E6%8F%92%E5%85%A5%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.2.5</mn></mrow><annotation encoding="application/x-tex">4.2.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">2</span><span class="mord">.</span><span class="mord">5</span></span></span></span> 插入一个元素</a></li>
+<li><a href="#426-%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4.2.6</mn></mrow><annotation encoding="application/x-tex">4.2.6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">.</span><span class="mord">2</span><span class="mord">.</span><span class="mord">6</span></span></span></span> 删除一个元素</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#5-%E4%BE%8B%E9%A2%98"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>5.</mn></mrow><annotation encoding="application/x-tex">5.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord">.</span></span></span></span> 例题</a>
+<ul>
+<li><a href="#code"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi><mi>o</mi><mi>d</mi><mi>e</mi><mo>:</mo></mrow><annotation encoding="application/x-tex">Code:</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span></span></span></span></a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+</li>
+</ul>
 
-            
-
-          </div>
-
+              </div>
+            </div>
+          </article>
         </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://reqwq.github.io/post/about/">
+              <h3 class="post-title">
+                【置顶】关于我
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://reqwq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <script>
+      hljs.initHighlightingOnLoad()
 
-AOS.init();
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
-</script>
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad()
-  </script>
-
-
-
-
-
+    </script>
   </body>
 </html>
