@@ -2048,7 +2048,9 @@ p > code {
     margin-bottom: 10px;
   }
 }
-body {
+.bg-color .bg-color {
+      background: transparent !important;
+    }body {
       background-color: #eee;
     }.header {
         width: 960px;
@@ -2060,30 +2062,30 @@ body {
         margin: 0 auto;
       }
     body {
-      color: #555;
+      color: #212529;
     }
     .next-md-body {
-      color: #555;
+      color: #212529;
     }
     .next-md-body h1, .next-md-body h2 {
-      border-bottom-color: #555;
+      border-bottom-color: #212529;
     }
     .archive-timeline-box::after, .tag-timeline-wrapper::after {
-      background: #dee2e6fe;
+      background: #dee2e6e5;
     }h1, h2, h3, h4, h5, h6 {
-      color: #555;
+      color: #212529;
     }
     
     .archive-timeline-title::before {
-      background-color: #555;
+      background-color: #212529;
     }
     
     .post-title-link::before {
-      background-color: #555;
+      background-color: #212529;
     }
     
     .node-title::before {
-      background-color: #555;
+      background-color: #212529;
     }a {
       color: #4dabf7;
     }
@@ -2115,11 +2117,11 @@ body {
       }.nav-item a:hover {
         color: #222;
       }.nav-item-active {
-      background: #f9f9f9fe;
+      background: #f9f9f9e5;
     }
 
     .nav-item:hover {
-      background: #f9f9f9fe;
+      background: #f9f9f9e5;
       color: rgba(0, 0, 0, 0.98);
     }.site-author-image {
       border-radius: 50%;
@@ -2131,11 +2133,11 @@ body {
       transition-duration: 59s;
       transition-timing-function: cubic-bezier(.34,0,.84,1);
     }.markdownIt-TOC a {
-      color: #eee;
-      border-bottom-color: #eee;
+      color: #ff8787;
+      border-bottom-color: #ff8787;
     }.markdownIt-TOC a:hover {
-      color: #fff;
-      border-bottom-color: #fff;
+      color: #e03131;
+      border-bottom-color: #e03131;
     }.active-current > a {
       color: #fc6423 !important;
       border-bottom-color: #fc6423 !important;
@@ -2155,7 +2157,7 @@ body {
       color: #fc6423;
       border-bottom-color: #fc6423;
     }.bg-color {
-      background-color: #fffffffe;
+      background-color: #ffffffe5;
     }
     .gemini .blog-header, .gemini .sidebar-wrapper, .gemini .article-wrapper, .gemini .post, .gemini .page, .gemini .section, .gemini .section-box, .gemini .sidebar-box, .gemini .friends-section {
       border-radius: 13px;
@@ -2164,19 +2166,19 @@ body {
       border-radius: 13px;
     }
     .site-meta {
-      background: #000 !important;
+      background: #dee2e6 !important;
     }
     .head-top-line {
-      background: #000;
+      background: #dee2e6;
     }
     .brand {
   
     }
     .main-title, .brand {
-      color: #FFF !important;
+      color: #fff !important;
     }
     .mist .site-title i {
-      background: #FFFFFFfe;
+      background: #ffffffe5;
     }.box-shadow-wrapper {
       padding: 10px;
     }.box-shadow-wrapper {
