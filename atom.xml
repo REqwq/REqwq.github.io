@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://reqwq.github.io/</id>
     <title>REqwq&apos;s Blog</title>
-    <updated>2022-07-25T14:54:15.747Z</updated>
+    <updated>2022-08-01T14:48:26.885Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://reqwq.github.io/"/>
     <link rel="self" href="https://reqwq.github.io/atom.xml"/>
@@ -110,6 +110,45 @@
 <li>arise</li>
 <li>risky</li>
 <li>criticism；critic；critical</li>
+</ul>
+<h2 id="2022726">2022/7/26</h2>
+<ul>
+<li>campaign</li>
+<li>system；systematic</li>
+<li>differ；different</li>
+<li>composition；compose</li>
+<li>pat</li>
+<li>instruct；instruction</li>
+<li>origin；original</li>
+</ul>
+<h2 id="2022727">2022/7/27</h2>
+<ul>
+<li>hesitation；hesitant</li>
+<li>welfare</li>
+<li>vast</li>
+<li>commitment；commit；committee</li>
+<li>mineral</li>
+<li>approval；approve；disapprove</li>
+<li>bacteria（复数）；bacterium（单数）</li>
+</ul>
+<h2 id="2022729">2022/7/29</h2>
+<ul>
+<li>devote</li>
+<li>charge；in charge of</li>
+<li>credit</li>
+<li>portable</li>
+<li>recover</li>
+<li>leap</li>
+</ul>
+<h2 id="202281">2022/8/1</h2>
+<ul>
+<li>crop</li>
+<li>academy；academic</li>
+<li>amount</li>
+<li>ecology；ecological</li>
+<li>resource</li>
+<li>administration；administer；adminisrator</li>
+<li>colleague</li>
 </ul>
 ]]></content>
     </entry>
@@ -462,10 +501,12 @@ for(int l=1,r=0;l&lt;=n;++l){
         <updated>2022-02-26T14:43:13.000Z</updated>
         <content type="html"><![CDATA[<!-- more -->
 <h1 id="施工中">施工中👷：</h1>
-<p>暂无</p>
-<h1 id="敬请期待咕咕中">敬请期待/咕咕中🕊：</h1>
 <ul>
 <li>DP 决策单调性小记</li>
+</ul>
+<h1 id="敬请期待咕咕中">敬请期待/咕咕中🕊：</h1>
+<ul>
+<li>无</li>
 </ul>
 <figure data-type="image" tabindex="1"><img src="https://cdn.luogu.com.cn/upload/image_hosting/0vjpbqx8.png" alt="" loading="lazy"></figure>
 ]]></content>
